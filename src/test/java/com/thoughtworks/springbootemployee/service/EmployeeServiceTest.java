@@ -45,6 +45,18 @@ class EmployeeServiceTest {
         service.delete(1);
 
     }
+    @Test
+    void should_return_junjun_name_when_get_employee_request(){
+
+        Employee employeeRequest = new Employee(1, "junjun", 10, "male", 200 );
+        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        when(repository.save(employeeRequest)).thenReturn(employeeRequest);
+        EmployeeService employeeService = new EmployeeService(repository);
+        Employee actual = employeeService.create(employeeRequest);
+
+        Assertions.assertEquals("junjun", actual.getName());
+    }
+
     
 
 }
