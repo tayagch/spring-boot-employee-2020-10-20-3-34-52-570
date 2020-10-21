@@ -11,7 +11,6 @@ import org.mockito.Mockito;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class CompanyServiceTest {
@@ -53,6 +52,20 @@ class CompanyServiceTest {
         CompanyService companyService = new CompanyService(repository);
         //WHEN
         Company actual = companyService.search(200);
+        //THEN
+        Assertions.assertEquals("Alibaba", actual.getCompanyName());
+    }
+
+    @Test
+    void should_get_updated_company_when_update_given_company_request(){
+        //GIVEN
+        List<Employee> employees = asList(new Employee(), new Employee());
+        Company companyRequest = new Company("Alibaba",200,employees);
+        CompanyRepository repository = Mockito.mock(CompanyRepository.class);
+        when(repository.update(200)).thenReturn(companyRequest);
+        CompanyService companyService = new CompanyService(repository);
+        //WHEN
+        Company actual = companyService.update(200);
         //THEN
         Assertions.assertEquals("Alibaba", actual.getCompanyName());
     }
