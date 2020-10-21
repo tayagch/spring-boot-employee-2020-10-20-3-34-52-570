@@ -16,4 +16,8 @@ public class CompanyRepository {
     public Company search(int employeeNumber) {
         return null;
     }
+
+    public Company update(int employeeNumber) {
+        return null;
+    }
 }
