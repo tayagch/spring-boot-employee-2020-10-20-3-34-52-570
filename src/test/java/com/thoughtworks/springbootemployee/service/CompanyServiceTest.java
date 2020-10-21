@@ -60,10 +60,10 @@ class CompanyServiceTest {
         //GIVEN
         List<Employee> employees = asList(new Employee(), new Employee());
         Company companyRequest = new Company("Alibaba",200,employees);
-        when(repository.update(200)).thenReturn(companyRequest);
+        when(repository.update(200,companyRequest)).thenReturn(companyRequest);
         CompanyService companyService = new CompanyService(repository);
         //WHEN
-        Company actual = companyService.update(200);
+        Company actual = companyService.update(200,companyRequest);
         //THEN
         Assertions.assertEquals("Alibaba", actual.getCompanyName());
     }

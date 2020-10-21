@@ -1,6 +1,9 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.service.CompanyService;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +15,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/companies")
 public class CompaniesController {
     private final List<Company> companies = new ArrayList<>();
+    private CompanyService companyService;
 
-//check
+    public CompaniesController(CompanyService companyService) {
+        this.companyService = companyService;
+    }
+
+    //check
     @GetMapping
     public List<Company> getAll() {
         return companies;
@@ -22,23 +30,17 @@ public class CompaniesController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Company create(@RequestBody Company company) {
-        companies.add(company);
-        return company;
+        return companyService.create(company);
     }
 //check
     @GetMapping("/{employeeNumber}")
     public Company get(@PathVariable int employeeId) {
-        return companies.stream().filter(company -> company.getEmployeeNumber() == employeeId).findFirst().orElse(null);
+        return companyService.search(employeeId);
     }
 //check
     @PutMapping("/{employeeNumber}")
     public Company update(@PathVariable Integer employeeId, @RequestBody Company companyUpdate) {
-        companies.stream().filter(company -> company.getEmployeeNumber() == employeeId).findFirst().ifPresent(company ->
-        {
-            companies.remove(company);
-            companies.add(companyUpdate);
-        });
-        return companyUpdate;
+        return companyService.update(employeeId, companyUpdate);
     }
 //check
     @DeleteMapping("/{employeeNumber}")

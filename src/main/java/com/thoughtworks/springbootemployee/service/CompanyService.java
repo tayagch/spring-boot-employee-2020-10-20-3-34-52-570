@@ -28,8 +28,8 @@ public class CompanyService {
         return repository.search(employeeNumber);
     }
 
-    public Company update(int employeeNumber){
-        return repository.update(employeeNumber);
+    public Company update(int employeeNumber, Company companyUpdate){
+        return repository.update(employeeNumber,companyUpdate);
     }
 
     public Company delete(int employeeNumber){
