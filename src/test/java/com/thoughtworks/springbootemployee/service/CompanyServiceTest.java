@@ -30,7 +30,7 @@ class CompanyServiceTest {
     }
 
     @Test
-    void should_create_company_when_create_given_employee_request(){
+    void should_create_company_when_create_given_company_request(){
 
         List<Employee> employees = asList(new Employee(), new Employee());
         Company companyRequest = new Company("Alibaba",200,employees);
