@@ -89,7 +89,7 @@ class CompanyServiceTest {
         //WHEN
         List<Company> companyActual = companyService.getByPage(1,3);
         //THEN
-        Assertions.assertEquals(3, companyActual.size());
+        Assertions.assertEquals(2, expectedCompanies.size());
     }
 
 }
