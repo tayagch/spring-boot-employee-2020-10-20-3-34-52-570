@@ -21,4 +21,12 @@ public class EmployeeRepository {
     public void delete(int i) {
 
     }
+
+    public Employee update(Employee employeeRequest) {
+        return null;
+    }
+
+    public Employee search(String gender ) {
+        return null;
+    }
 }

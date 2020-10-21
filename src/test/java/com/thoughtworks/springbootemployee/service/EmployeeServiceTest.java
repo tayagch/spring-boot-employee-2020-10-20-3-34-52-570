@@ -46,16 +46,19 @@ class EmployeeServiceTest {
 
     }
     @Test
-    void should_return_junjun_name_when_get_employee_request(){
-
+    void should_return_1_employeeId_when_update_employee_request(){
+        //GIVEN
         Employee employeeRequest = new Employee(1, "junjun", 10, "male", 200 );
         EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
-        when(repository.save(employeeRequest)).thenReturn(employeeRequest);
-        EmployeeService employeeService = new EmployeeService(repository);
-        Employee actual = employeeService.create(employeeRequest);
+        when(repository.update(employeeRequest)).thenReturn(employeeRequest);
 
-        Assertions.assertEquals("junjun", actual.getName());
+        EmployeeService employeeService = new EmployeeService(repository);
+        Employee actual = employeeService.update(employeeRequest);
+
+        Assertions.assertEquals(1, actual.getId());
     }
+
+
 
     
 

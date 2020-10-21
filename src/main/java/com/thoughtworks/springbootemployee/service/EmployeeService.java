@@ -26,4 +26,12 @@ public class EmployeeService {
     public Employee delete(int i) {
         return null;
     }
+
+    public Employee update(Employee employee) {
+        return repository.update(employee);
+    }
+
+    public Employee search(String male) {
+        return repository.search(male);
+    }
 }
