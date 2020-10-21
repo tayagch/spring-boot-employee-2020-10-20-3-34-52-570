@@ -15,12 +15,15 @@ import static org.mockito.Mockito.when;
 
 class CompanyServiceTest {
 
+    //Givens
     CompanyRepository repository = Mockito.mock(CompanyRepository.class);
+    List<Company> expectedCompanies = asList(new Company(),new Company());
+    List<Employee> employees = asList(new Employee(), new Employee());
+    Company companyRequest = new Company("Alibaba",200,employees);
 
     @Test
     void should_get_all_when_get_companies(){
         //GIVEN
-        List<Company> expectedCompanies = asList(new Company(),new Company());
         when(repository.findAll()).thenReturn(expectedCompanies);
         CompanyService service = new CompanyService(repository);
         //WHEN
@@ -32,8 +35,6 @@ class CompanyServiceTest {
     @Test
     void should_create_company_when_create_given_company_request(){
         //GIVEN
-        List<Employee> employees = asList(new Employee(), new Employee());
-        Company companyRequest = new Company("Alibaba",200,employees);
         when(repository.save(companyRequest)).thenReturn(companyRequest);
         CompanyService companyService = new CompanyService(repository);
         //WHEN
@@ -45,8 +46,6 @@ class CompanyServiceTest {
     @Test
     void should_get_company_when_search_given_company_request(){
         //GIVEN
-        List<Employee> employees = asList(new Employee(), new Employee());
-        Company companyRequest = new Company("Alibaba",200,employees);
         when(repository.search(200)).thenReturn(companyRequest);
         CompanyService companyService = new CompanyService(repository);
         //WHEN
@@ -58,8 +57,6 @@ class CompanyServiceTest {
     @Test
     void should_get_updated_company_when_update_given_company_request(){
         //GIVEN
-        List<Employee> employees = asList(new Employee(), new Employee());
-        Company companyRequest = new Company("Alibaba",200,employees);
         when(repository.update(200,companyRequest)).thenReturn(companyRequest);
         CompanyService companyService = new CompanyService(repository);
         //WHEN
@@ -72,8 +69,6 @@ class CompanyServiceTest {
     void should_get_delete_company_when_delete_given_company_request() {
         //given
         CompanyService companyService = new CompanyService(repository);
-        List<Employee> employees = asList(new Employee(), new Employee());
-        Company companyRequest = new Company("Alibaba",200,employees);
         // when
         companyService.delete(200);
         //then
@@ -83,13 +78,23 @@ class CompanyServiceTest {
     @Test
     void should_get_company_when_getByPage_given_company_request() {
         //GIVEN
-        List<Company> expectedCompanies = asList(new Company(),new Company());
         when(repository.getByPage(1,3)).thenReturn(expectedCompanies);
         CompanyService companyService = new CompanyService(repository);
         //WHEN
         List<Company> companyActual = companyService.getByPage(1,3);
         //THEN
-        Assertions.assertEquals(2, expectedCompanies.size());
+        Assertions.assertEquals(2, companyActual.size());
+    }
+
+    @Test
+    void should_get_company_emplyees_when_getEmployees_given_company_request() {
+        //GIVEN
+        when(repository.getEmployees(200)).thenReturn(companyRequest.getEmployees());
+        CompanyService companyService = new CompanyService(repository);
+        //WHEN
+        List<Employee> actual = companyService.getEmployees(200);
+        //THEN
+        Assertions.assertEquals(companyRequest.getEmployees(), actual);
     }
 
 }

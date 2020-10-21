@@ -7,6 +7,7 @@ import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CompanyService {
@@ -38,5 +39,9 @@ public class CompanyService {
 
     public List<Company> getByPage(int page, int pageSize){
         return repository.getByPage(page ,pageSize);
+    }
+
+    public List<Employee> getEmployees(int employeeNumber){
+        return repository.getEmployees(employeeNumber);
     }
 }

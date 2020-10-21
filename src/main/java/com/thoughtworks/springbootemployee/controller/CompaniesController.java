@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class CompaniesController {
     }
 
     @GetMapping("/{employeeNumber}")
-    public Company get(@PathVariable int employeeId) {
-        return companyService.search(employeeId);
+    public Company get(@PathVariable int employeeNumber) {
+        return companyService.search(employeeNumber);
     }
 
     @PutMapping("/{employeeNumber}")
@@ -45,5 +46,10 @@ public class CompaniesController {
     @GetMapping(params = {"page" , "pageSize"})
     public List<Company> getByPage(@RequestParam() int page,@RequestParam() int pageSize){
         return companyService.getByPage(page,pageSize);
+    }
+
+    @GetMapping("/{employeeNumber}/Employees")
+    public List<Employee> getEmployees(@PathVariable int employeeNumber) {
+        return companyService.getEmployees(employeeNumber);
     }
 }
