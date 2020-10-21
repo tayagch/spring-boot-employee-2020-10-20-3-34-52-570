@@ -1,16 +1,19 @@
 package com.thoughtworks.springbootemployee.repository;
 
 import com.thoughtworks.springbootemployee.model.Company;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class CompanyRepository {
     private final List<Company> companies = new ArrayList<>();
 
     public List<Company> findAll() {
-        return null;
+
+        return companies;
     }
 
     public Company save(Company company) {

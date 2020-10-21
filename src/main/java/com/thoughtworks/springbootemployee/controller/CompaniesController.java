@@ -10,7 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/companies")
 public class CompaniesController {
-    private final List<Company> companies = new ArrayList<>();
     private CompanyService companyService;
 
     public CompaniesController(CompanyService companyService) {
@@ -19,7 +18,7 @@ public class CompaniesController {
 
     @GetMapping
     public List<Company> getAll() {
-        return companies;
+        return companyService.getAll();
     }
 
     @PostMapping

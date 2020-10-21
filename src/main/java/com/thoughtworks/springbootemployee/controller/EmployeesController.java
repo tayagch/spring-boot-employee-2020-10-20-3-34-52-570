@@ -14,50 +14,47 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/employees")
 public class EmployeesController {
-    private final List<Employee> employees = new ArrayList<>();
+    //private final List<Employee> employees = new ArrayList<>();
+    EmployeeService employeeService;
+
+    public EmployeesController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping
     public List<Employee> getAll() {
-        return employees;
+        return employeeService.getAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Employee create(@RequestBody Employee employee) {
-        employees.add(employee);
+        employeeService.create(employee);
         return employee;
     }
 
     @GetMapping("/{employeeId}")
     public Employee get(@PathVariable int employeeID) {
-        return employees.stream().filter(employee1 -> employee1.getId() == employeeID).findFirst().orElse(null);
+        return employeeService.getById(employeeID);
     }
 
     @PutMapping("/{employeeId}")
     public Employee update(@PathVariable Integer employeeId, @RequestBody Employee employUpdate) {
-        employees.stream().filter(employee -> employee.getId() == employeeId).findFirst().ifPresent(employee ->
-        {
-            employees.remove(employee);
-            employees.add(employUpdate);
-        });
-
-        return employUpdate;
+        return employeeService.update(employUpdate);
     }
 
     @DeleteMapping("/{employeeId}")
     public void delete(@PathVariable Integer employeeId) {
-        employees.stream().filter(employee -> employee.getId() == employeeId).findFirst().ifPresent(employees::remove);
+        employeeService.delete(employeeId);
     }
 
     @GetMapping(params = "gender")
-    public List<Employee> getByGender(@RequestParam("gender") String gender){
-        return  employees.stream()
-                .filter(employee -> employee.getGender().equalsIgnoreCase(gender))
-                .collect(Collectors.toList());
+    public Employee getByGender(@RequestParam("gender") String gender){
+        return  employeeService.search(gender);
     }
     @GetMapping(params = {"page" , "pageSize"})
     public List<Employee> getByPage(@RequestParam() int page,@RequestParam() int pageSize){
-        return employees.stream().skip(pageSize*(page-1)).limit(pageSize).collect(Collectors.toList());
+        return employeeService.getByPage(page,pageSize);
     }
 
 }

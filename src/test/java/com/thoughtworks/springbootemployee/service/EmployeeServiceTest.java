@@ -84,6 +84,17 @@ class EmployeeServiceTest {
         //THEN
         Assertions.assertEquals(2, actual.size());
     }
+    @Test
+    void should_get_employee_with_correct_id_when_search_given_employee_request(){
+        //GIVEN
+        Employee employeeRequest = new Employee(1, "junjun", 10, "male", 200 );
+        when(repository.getById(1)).thenReturn(employeeRequest);
+
+        EmployeeService employeeService = new EmployeeService(repository);
+        Employee actual = employeeService.getById(1);
+
+        Assertions.assertEquals(1, actual.getId());
+    }
 
     
 
