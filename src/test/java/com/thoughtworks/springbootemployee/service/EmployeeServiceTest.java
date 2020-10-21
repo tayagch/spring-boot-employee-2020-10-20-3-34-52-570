@@ -57,8 +57,18 @@ class EmployeeServiceTest {
 
         Assertions.assertEquals(1, actual.getId());
     }
+    @Test
+    void should_return_gender_when_search_given_employee_request(){
+        //GIVEN
+        Employee employeeRequest = new Employee(1, "junjun", 10, "male", 200 );
+        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        when(repository.search("male")).thenReturn(employeeRequest);
 
+        EmployeeService employeeService = new EmployeeService(repository);
+        Employee actual = employeeService.search("male");
 
+        Assertions.assertEquals("male", actual.getGender());
+    }
 
     
 
