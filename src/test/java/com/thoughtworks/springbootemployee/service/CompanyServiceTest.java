@@ -31,15 +31,29 @@ class CompanyServiceTest {
 
     @Test
     void should_create_company_when_create_given_company_request(){
-
+        //GIVEN
         List<Employee> employees = asList(new Employee(), new Employee());
         Company companyRequest = new Company("Alibaba",200,employees);
         CompanyRepository repository = Mockito.mock(CompanyRepository.class);
         when(repository.save(companyRequest)).thenReturn(companyRequest);
         CompanyService companyService = new CompanyService(repository);
-
+        //WHEN
         Company actual = companyService.create(companyRequest);
+        //THEN
+        Assertions.assertEquals("Alibaba", actual.getCompanyName());
+    }
 
+    @Test
+    void should_get_company_when_search_given_company_request(){
+        //GIVEN
+        List<Employee> employees = asList(new Employee(), new Employee());
+        Company companyRequest = new Company("Alibaba",200,employees);
+        CompanyRepository repository = Mockito.mock(CompanyRepository.class);
+        when(repository.search(200)).thenReturn(companyRequest);
+        CompanyService companyService = new CompanyService(repository);
+        //WHEN
+        Company actual = companyService.search(200);
+        //THEN
         Assertions.assertEquals("Alibaba", actual.getCompanyName());
     }
 
