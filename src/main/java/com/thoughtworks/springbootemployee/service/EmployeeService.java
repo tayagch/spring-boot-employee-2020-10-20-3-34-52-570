@@ -23,8 +23,8 @@ public class EmployeeService {
         return repository.save(employee);
     }
 
-    public Employee delete(int i) {
-        return null;
+    public void delete(int employeeId) {
+         repository.delete(employeeId);
     }
 
     public Employee update(Employee employee) {
@@ -33,5 +33,9 @@ public class EmployeeService {
 
     public Employee search(String male) {
         return repository.search(male);
+    }
+
+    public List<Employee> getByPage(int page, int pageSize) {
+        return repository.getByPage(page,pageSize);
     }
 }
