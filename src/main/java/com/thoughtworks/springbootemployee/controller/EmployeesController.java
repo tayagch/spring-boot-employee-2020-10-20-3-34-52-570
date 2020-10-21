@@ -48,7 +48,7 @@ public class EmployeesController {
     public void delete(@PathVariable Integer employeeId) {
         employees.stream().filter(employee -> employee.getId() == employeeId).findFirst().ifPresent(employees::remove);
     }
-    
+
     @GetMapping(params = "gender")
     public List<Employee> getByGender(@RequestParam("gender") String gender){
         return  employees.stream()

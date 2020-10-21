@@ -4,15 +4,15 @@ import java.util.List;
 
 public class Company {
     private String companyName;
-    private int companyID;
+    private int employeeNumber;
     private List<Employee> employees;
 
     public Company() {
     }
 
-    public Company(String companyName, int companyID, List<Employee> employees) {
+    public Company(String companyName, int employeeNumber, List<Employee> employees) {
         this.companyName = companyName;
-        this.companyID = companyID;
+        this.employeeNumber = employeeNumber;
         this.employees = employees;
     }
 
@@ -24,12 +24,12 @@ public class Company {
         this.companyName = companyName;
     }
 
-    public int getCompanyID() {
-        return companyID;
+    public int getEmployeeNumber() {
+        return employeeNumber;
     }
 
-    public void setCompanyID(int companyID) {
-        this.companyID = companyID;
+    public void setEmployeeNumber(int employeeNumber) {
+        this.employeeNumber = employeeNumber;
     }
 
     public List<Employee> getEmployees() {

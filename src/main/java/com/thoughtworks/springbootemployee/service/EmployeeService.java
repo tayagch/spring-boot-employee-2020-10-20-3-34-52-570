@@ -22,4 +22,8 @@ public class EmployeeService {
     public Employee create(Employee employee) {
         return repository.save(employee);
     }
+
+    public Employee delete(int i) {
+        return null;
+    }
 }

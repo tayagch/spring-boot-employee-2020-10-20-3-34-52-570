@@ -1,7 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
-import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,14 +26,14 @@ public class CompaniesController {
         return company;
     }
 
-    @GetMapping("/{companyId}")
-    public Company get(@PathVariable int companyId) {
-        return companies.stream().filter(company -> company.getCompanyID() == companyId).findFirst().orElse(null);
+    @GetMapping("/{employeeNumber}")
+    public Company get(@PathVariable int employeeId) {
+        return companies.stream().filter(company -> company.getEmployeeNumber() == employeeId).findFirst().orElse(null);
     }
 
-    @PutMapping("/{companyId}")
-    public Company update(@PathVariable Integer companyId, @RequestBody Company companyUpdate) {
-        companies.stream().filter(company -> company.getCompanyID() == companyId).findFirst().ifPresent(company ->
+    @PutMapping("/{employeeNumber}")
+    public Company update(@PathVariable Integer employeeId, @RequestBody Company companyUpdate) {
+        companies.stream().filter(company -> company.getEmployeeNumber() == employeeId).findFirst().ifPresent(company ->
         {
             companies.remove(company);
             companies.add(companyUpdate);
@@ -42,9 +41,9 @@ public class CompaniesController {
         return companyUpdate;
     }
 
-    @DeleteMapping("/{companyId}")
-    public void delete(@PathVariable Integer companyId) {
-        companies.stream().filter(company -> company.getCompanyID() == companyId).findFirst().ifPresent(companies::remove);
+    @DeleteMapping("/{employeeNumber}")
+    public void delete(@PathVariable Integer employeeNumber) {
+        companies.stream().filter(company -> company.getEmployeeNumber() == employeeNumber).findFirst().ifPresent(companies::remove);
     }
 
     @GetMapping(params = {"page" , "pageSize"})

@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class EmployeeServiceTest {
     @Test
@@ -36,5 +36,15 @@ class EmployeeServiceTest {
 
         Assertions.assertEquals(1, actual.getId());
     }
+    @Test
+    void should_delete_employee_when_delete_given_employee_request(){
+        EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+        doNothing().when(repository).delete(1);
+
+        EmployeeService service = new EmployeeService(repository);
+        service.delete(1);
+
+    }
+    
 
 }
