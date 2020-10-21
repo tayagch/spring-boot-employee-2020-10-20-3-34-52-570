@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,8 +12,14 @@ import java.util.List;
 public class EmployeesController {
     private final List<Employee> employees = new ArrayList<>();
 
+
     @GetMapping
     public List<Employee> getAll(){return employees;}
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Employee create(@RequestBody)
+
 
     @GetMapping
     public Employee get(@PathVariable int employeeID){
