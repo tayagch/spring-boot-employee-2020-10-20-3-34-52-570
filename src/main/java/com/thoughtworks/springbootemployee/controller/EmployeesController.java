@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -45,6 +46,10 @@ public class EmployeesController {
     public void delete(@PathVariable Integer employeeId) {
         employees.stream().filter(employee -> employee.getId() == employeeId).findFirst().ifPresent(employees::remove);
     }
-
+    
+    @GetMapping(params = "gender")
+    public List<Employee> getByGender(@RequestParam("gender") String gender){
+        return  employees.stream().filter(employee -> employee.getGender().equalsIgnoreCase(gender)).collect(Collectors.toList());
+    }
 
 }
