@@ -24,13 +24,16 @@ public class EmployeeRepository {
         employees.stream().filter(employee -> employee.getId() == employeeId).findFirst().ifPresent(employees::remove);
     }
 
-    public Employee update(Employee employeeRequest) {
-        return null;
+    public Employee update(int employeeId, Employee employeeRequest) {
+        employees.stream().filter(employee -> employee.getId()==employeeId).findFirst().ifPresent(employee ->
+        {employees.remove(employee); employees.add(employeeRequest);});
+        return employeeRequest;
     }
 
-    public Employee search(String gender ) {
-        return employees.stream().filter(employee -> employee.getGender() == gender).findFirst()
-                .orElse(null);
+    public List<Employee> getByGender(String gender) {
+        return employees.stream()
+                .filter(employee -> employee.getGender().equalsIgnoreCase(gender))
+                .collect(Collectors.toList());
     }
 
     public List<Employee> getByPage(int page, int pageSize) {
