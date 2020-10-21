@@ -12,4 +12,8 @@ public class CompanyRepository {
     public Company save(Company companyRequest) {
         return null;
     }
+
+    public Company search(int employeeNumber) {
+        return null;
+    }
 }

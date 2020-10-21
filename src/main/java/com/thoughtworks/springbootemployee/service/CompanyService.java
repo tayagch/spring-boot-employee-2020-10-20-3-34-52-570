@@ -23,4 +23,8 @@ public class CompanyService {
     public Company create(Company company){
         return repository.save(company);
     }
+
+    public Company search(int employeeNumber){
+        return repository.search(employeeNumber);
+    }
 }
