@@ -27,12 +27,12 @@ public class EmployeeService {
          repository.delete(employeeId);
     }
 
-    public Employee update(Employee employee) {
-        return repository.update(employee);
+    public Employee update(int employeeId, Employee employee) {
+        return repository.update(employeeId, employee);
     }
 
-    public Employee search(String male) {
-        return repository.search(male);
+    public List<Employee> getByGender(String male) {
+        return repository.getByGender(male);
     }
 
     public List<Employee> getByPage(int page, int pageSize) {
