@@ -29,4 +29,8 @@ public class EmployeeRepository {
     public Employee search(String gender ) {
         return null;
     }
+
+    public List<Employee> getByPage(int i, int i1) {
+        return null;
+    }
 }
