@@ -16,12 +16,6 @@ import java.util.stream.Collectors;
 public class EmployeesController {
     private final List<Employee> employees = new ArrayList<>();
 
-    private EmployeeService employeeService;
-
-    public EmployeesController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
     @GetMapping
     public List<Employee> getAll() {
         return employees;
