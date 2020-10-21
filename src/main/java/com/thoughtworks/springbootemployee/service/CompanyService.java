@@ -19,4 +19,8 @@ public class CompanyService {
     public List<Company> getAll() {
         return repository.findAll();
     }
+
+    public Company create(Company company){
+        return null;
+    }
 }
