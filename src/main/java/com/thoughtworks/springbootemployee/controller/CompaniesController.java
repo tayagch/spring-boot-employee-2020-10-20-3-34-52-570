@@ -1,15 +1,11 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
-import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
-import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/companies")
@@ -21,35 +17,34 @@ public class CompaniesController {
         this.companyService = companyService;
     }
 
-    //check
     @GetMapping
     public List<Company> getAll() {
         return companies;
     }
-//check
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Company create(@RequestBody Company company) {
         return companyService.create(company);
     }
-//check
+
     @GetMapping("/{employeeNumber}")
     public Company get(@PathVariable int employeeId) {
         return companyService.search(employeeId);
     }
-//check
+
     @PutMapping("/{employeeNumber}")
     public Company update(@PathVariable Integer employeeId, @RequestBody Company companyUpdate) {
         return companyService.update(employeeId, companyUpdate);
     }
-//check
+
     @DeleteMapping("/{employeeNumber}")
     public void delete(@PathVariable Integer employeeNumber) {
-        companies.stream().filter(company -> company.getEmployeeNumber() == employeeNumber).findFirst().ifPresent(companies::remove);
+        companyService.delete(employeeNumber);
     }
-//
+
     @GetMapping(params = {"page" , "pageSize"})
     public List<Company> getByPage(@RequestParam() int page,@RequestParam() int pageSize){
-        return companies.stream().skip(pageSize*(page-1)).limit(pageSize).collect(Collectors.toList());
+        return companyService.getByPage(page,pageSize);
     }
 }

@@ -32,8 +32,8 @@ public class CompanyService {
         return repository.update(employeeNumber,companyUpdate);
     }
 
-    public Company delete(int employeeNumber){
-        return repository.delete(employeeNumber);
+    public void delete(int employeeNumber){
+        repository.delete(employeeNumber);
     }
 
     public List<Company> getByPage(int page, int pageSize){
