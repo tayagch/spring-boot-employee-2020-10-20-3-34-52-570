@@ -18,12 +18,20 @@ public class EmployeesController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee create(@RequestBody)
-
-
-    @GetMapping
+    public Employee create(@RequestBody Employee employee){
+        employees.add(employee);
+        return employee;
+    }
+    @GetMapping("/{employeeId}")
     public Employee get(@PathVariable int employeeID){
         return  employees.stream().filter(employee1 -> employee1.getId() == employeeID).findFirst().orElse(null);
+    }
+    @PutMapping("/{employeeId}")
+    public Employee update(@PathVariable Integer employeeId, @RequestBody Employee employUpdate){
+        employees.stream().filter(employee -> employee.getId() == employeeId).findFirst().ifPresent(employee ->
+        {employees.remove(employee); employees.add(employUpdate);});
+
+        return employUpdate;
     }
 
 
