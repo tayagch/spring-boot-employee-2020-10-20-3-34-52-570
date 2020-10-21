@@ -1,10 +1,13 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +16,11 @@ import java.util.stream.Collectors;
 public class EmployeesController {
     private final List<Employee> employees = new ArrayList<>();
 
+    private EmployeeService employeeService;
+
+    public EmployeesController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping
     public List<Employee> getAll() {
@@ -49,7 +57,14 @@ public class EmployeesController {
     
     @GetMapping(params = "gender")
     public List<Employee> getByGender(@RequestParam("gender") String gender){
-        return  employees.stream().filter(employee -> employee.getGender().equalsIgnoreCase(gender)).collect(Collectors.toList());
+        return  employees.stream()
+                .filter(employee -> employee.getGender().equalsIgnoreCase(gender))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping(params = {"page" , "pageSize"})
+    public List<Employee> getByPage(@RequestParam() int page,@RequestParam() int pageSize){
+        return employees.stream().skip(pageSize*(page-1)).limit(pageSize).collect(Collectors.toList());
     }
 
 }
