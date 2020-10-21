@@ -30,7 +30,7 @@ public class CompaniesController {
     public Company get(@PathVariable int employeeId) {
         return companies.stream().filter(company -> company.getEmployeeNumber() == employeeId).findFirst().orElse(null);
     }
-//
+//check
     @PutMapping("/{employeeNumber}")
     public Company update(@PathVariable Integer employeeId, @RequestBody Company companyUpdate) {
         companies.stream().filter(company -> company.getEmployeeNumber() == employeeId).findFirst().ifPresent(company ->
@@ -40,7 +40,7 @@ public class CompaniesController {
         });
         return companyUpdate;
     }
-//
+//check
     @DeleteMapping("/{employeeNumber}")
     public void delete(@PathVariable Integer employeeNumber) {
         companies.stream().filter(company -> company.getEmployeeNumber() == employeeNumber).findFirst().ifPresent(companies::remove);

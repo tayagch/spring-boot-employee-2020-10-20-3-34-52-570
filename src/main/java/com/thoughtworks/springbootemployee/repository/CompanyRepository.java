@@ -20,4 +20,12 @@ public class CompanyRepository {
     public Company update(int employeeNumber) {
         return null;
     }
+
+    public Company delete(int employeeNumber) {
+        return null;
+    }
+
+    public List<Company> getByPage(int page, int pageSize) {
+        return null;
+    }
 }

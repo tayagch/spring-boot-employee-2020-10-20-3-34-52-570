@@ -31,4 +31,12 @@ public class CompanyService {
     public Company update(int employeeNumber){
         return repository.update(employeeNumber);
     }
+
+    public Company delete(int employeeNumber){
+        return repository.delete(employeeNumber);
+    }
+
+    public List<Company> getByPage(int page, int pageSize){
+        return repository.getByPage(page ,pageSize);
+    }
 }
