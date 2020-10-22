@@ -6,9 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,5 +42,31 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[0].salary").value(10000));
 
+    }
+
+    @Test
+    void should_create_employee_when_perform_post_given_employee_request() throws Exception {
+        // given
+        String employeeAsJsoin = "{\n" +
+                "        \"name\":\"Christian\",\n" +
+                "        \"age\":20,\n" +
+                "        \"gender\":\"male\",\n" +
+                "        \"salary\":10000\n" +
+                "}";
+
+        // when then
+        mockMvc.perform(post("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(employeeAsJsoin))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("Christian"))
+                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.gender").value("male"))
+                .andExpect(jsonPath("$.salary").value(10000));
+
+        List<Employee> employees = employeeRepository.findAll();
+        assertEquals(1,employees.size());
+        assertEquals("Christian",employees.get(0).getName());
     }
 }
