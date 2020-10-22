@@ -31,8 +31,11 @@ public class EmployeeService {
     }
 
     public Employee update(Integer employeeId, Employee employeeRequest) {
-        employeeRequest.setId(employeeId);
-        return repository.save(employeeRequest);
+        if(getById(employeeId).isPresent()){
+            employeeRequest.setId(employeeId);
+            return repository.save(employeeRequest);
+        }
+        throw new RuntimeException();
     }
 
     public List<Employee> getByGender(String gender) {
@@ -45,6 +48,6 @@ public class EmployeeService {
     }
 
     public Optional<Employee> getById(Integer id) {
-        return repository.findById(id);
+        return Optional.ofNullable(repository.findById(id)).orElseThrow(RuntimeException::new);
     }
 }

@@ -33,10 +33,12 @@ public class CompanyService {
     }
 
     public Company update(Integer companyId, Company companyUpdate){
-        // TODO add validation if exist
-        companyUpdate.getEmployees().forEach(employeeRepository::save);
-        companyUpdate.setCompanyId(companyId);
-        return companyRepository.save(companyUpdate);
+        if (findByCompanyId(companyId)==null){
+            companyUpdate.getEmployees().forEach(employeeRepository::save);
+            companyUpdate.setCompanyId(companyId);
+            return companyRepository.save(companyUpdate);
+        }
+        throw new RuntimeException();
     }
 
     public void delete(Integer companyId){
@@ -50,6 +52,8 @@ public class CompanyService {
     }
 
     public List<Employee> getEmployees(Integer companyId){
-        return companyRepository.findById(companyId).get().getEmployees();
+
+        return Optional.ofNullable(companyRepository.findById(companyId).get().getEmployees())
+                .orElseThrow(RuntimeException::new);
     }
 }
