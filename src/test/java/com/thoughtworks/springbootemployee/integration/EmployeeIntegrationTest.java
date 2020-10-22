@@ -69,4 +69,20 @@ public class EmployeeIntegrationTest {
         assertEquals(1,employees.size());
         assertEquals("Christian",employees.get(0).getName());
     }
+
+    @Test
+    void should_return_employee_when_getById_given_employeeId() throws Exception {
+        // given
+        Employee employee = new Employee(1,"Christian",20,"male",10000);
+        employeeRepository.save(employee);
+
+        // when then
+        mockMvc.perform(get("/employees/{employeeId}",1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("Christian"))
+                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.gender").value("male"))
+                .andExpect(jsonPath("$.salary").value(10000));
+    }
 }
