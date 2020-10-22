@@ -9,7 +9,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer companyId;
     private String companyName;
-    private int employeeNumber;
+    private Integer employeeNumber;
 
     @OneToMany(orphanRemoval = true,fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "company_id")
@@ -18,7 +18,7 @@ public class Company {
     public Company() {
     }
 
-    public Company(String companyName, int employeeNumber, List<Employee> employees) {
+    public Company(Integer companyId,String companyName, int employeeNumber, List<Employee> employees) {
         this.companyName = companyName;
         this.employeeNumber = employeeNumber;
         this.employees = employees;
