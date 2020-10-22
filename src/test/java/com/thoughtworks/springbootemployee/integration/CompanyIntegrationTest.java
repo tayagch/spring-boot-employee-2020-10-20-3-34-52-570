@@ -151,6 +151,22 @@ public class CompanyIntegrationTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void should_return_company_when_getByPage() throws Exception {
+        //GIVEN
+        List<Employee> employees = asList(new Employee(), new Employee());
+        Company company = new Company(1,"OOCL",2,employees);
+        companyRepository.save(company);
+
+        //WHEN and THEN
+        mockMvc.perform(get("/companies?page=0&pageSize=3"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].companyId").isNumber())
+                .andExpect(jsonPath("$[0].companyName").value("OOCL"))
+                .andExpect(jsonPath("$[0].employeeNumber").isNumber())
+                .andExpect(jsonPath("$[0].employees").isArray());
+    }
+
 
 
 }
