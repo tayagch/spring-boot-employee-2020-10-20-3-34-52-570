@@ -111,4 +111,15 @@ public class EmployeeIntegrationTest {
         Employee employeeActual = employeeRepository.findById(1).get();
         assertEquals("Christian Tayag",employeeActual.getName());
     }
+
+    @Test
+    void should_delete_employee_when_delete_given_companyId() throws Exception {
+        // given
+        Employee employee = new Employee(1,"Christian",20,"male",10000);
+        employeeRepository.save(employee);
+
+        // when then
+        mockMvc.perform(delete("/employees/{employeeId}",1))
+                .andExpect(status().isOk());
+    }
 }
