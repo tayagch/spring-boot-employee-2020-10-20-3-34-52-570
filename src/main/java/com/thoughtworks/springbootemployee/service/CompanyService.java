@@ -3,7 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
-import com.thoughtworks.springbootemployee.repository.CompanyRepositoryLegacy;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,40 +13,43 @@ import java.util.Optional;
 
 @Service
 public class CompanyService {
-    private final CompanyRepository repository;
-
-    public CompanyService(CompanyRepository repository) {
-        this.repository = repository;
+    private final CompanyRepository companyRepository;
+    private final EmployeeRepository employeeRepository;
+    public CompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository) {
+        this.companyRepository = companyRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     public List<Company> getAll() {
-        return repository.findAll();
+        return companyRepository.findAll();
     }
 
     public Company create(Company company){
-        return repository.save(company);
+        return companyRepository.save(company);
     }
 
     public Company findByCompanyId(Integer companyId){
-        return repository.findById(companyId).get();
+        return companyRepository.findById(companyId).get();
     }
 
     public Company update(Integer companyId, Company companyUpdate){
+        // TODO add validation if exist
+        companyUpdate.getEmployees().forEach(employeeRepository::save);
         companyUpdate.setCompanyId(companyId);
-        return repository.save(companyUpdate);
+        return companyRepository.save(companyUpdate);
     }
 
     public void delete(Integer companyId){
-        Optional<Company> company = repository.findById(companyId);
-        company.ifPresent(repository::delete);
+        Optional<Company> company = companyRepository.findById(companyId);
+        company.ifPresent(companyRepository::delete);
     }
 
     public List<Company> getByPage(int page, int pageSize){
         Pageable pageable = PageRequest.of(page,pageSize);
-        return repository.findAll(pageable).toList();
+        return companyRepository.findAll(pageable).toList();
     }
 
     public List<Employee> getEmployees(Integer companyId){
-        return repository.findById(companyId).get().getEmployees();
+        return companyRepository.findById(companyId).get().getEmployees();
     }
 }

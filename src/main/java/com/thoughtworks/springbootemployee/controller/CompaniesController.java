@@ -28,19 +28,19 @@ public class CompaniesController {
         return companyService.create(company);
     }
 
-    @GetMapping("/{employeeNumber}")
-    public Company get(@PathVariable int employeeNumber) {
-        return companyService.findByCompanyId(employeeNumber);
+    @GetMapping("/{companyId}")
+    public Company get(@PathVariable Integer companyId) {
+        return companyService.findByCompanyId(companyId);
     }
 
-    @PutMapping("/{employeeNumber}")
-    public Company update(@PathVariable Integer employeeNumber, @RequestBody Company companyUpdate) {
-        return companyService.update(employeeNumber, companyUpdate);
+    @PutMapping("/{companyId}")
+    public Company update(@PathVariable Integer companyId, @RequestBody Company companyUpdate) {
+        return companyService.update(companyId, companyUpdate);
     }
 
-    @DeleteMapping("/{employeeNumber}")
-    public void delete(@PathVariable Integer employeeNumber) {
-        companyService.delete(employeeNumber);
+    @DeleteMapping("/{companyId}")
+    public void delete(@PathVariable Integer companyId) {
+        companyService.delete(companyId);
     }
 
     @GetMapping(params = {"page" , "pageSize"})
@@ -48,8 +48,8 @@ public class CompaniesController {
         return companyService.getByPage(page,pageSize);
     }
 
-    @GetMapping("/{employeeNumber}/employees")
-    public List<Employee> getEmployees(@PathVariable int employeeNumber) {
-        return companyService.getEmployees(employeeNumber);
+    @GetMapping("/{companyId}/employees")
+    public List<Employee> getEmployees(@PathVariable Integer companyId) {
+        return companyService.getEmployees(companyId);
     }
 }

@@ -11,7 +11,7 @@ public class Company {
     private String companyName;
     private int employeeNumber;
 
-    @OneToMany(orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true,fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "company_id")
     private List<Employee> employees;
 
