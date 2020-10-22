@@ -122,4 +122,26 @@ public class EmployeeIntegrationTest {
         mockMvc.perform(delete("/employees/{employeeId}",1))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void should_return_male_employees_when_getByGender_given_params_gender_male() throws Exception {
+        // given
+        Employee employee = new Employee(1,"Christian",20,"male",10000);
+        Employee employee1 = new Employee(2,"Christian Tayag",20,"male",10000);
+        employeeRepository.save(employee);
+        employeeRepository.save(employee1);
+
+        // when then
+        mockMvc.perform(get("/employees?gender={gender}","male"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").isNumber())
+                .andExpect(jsonPath("$[0].name").value("Christian"))
+                .andExpect(jsonPath("$[0].age").value(20))
+                .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[0].salary").value(10000));
+
+        List<Employee> employees = employeeRepository.findByGender("male");
+        assertEquals(2,employees.size());
+        assertEquals("Christian",employees.get(0).getName());
+    }
 }
