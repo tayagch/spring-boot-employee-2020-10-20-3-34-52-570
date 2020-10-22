@@ -5,6 +5,7 @@ import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -27,19 +28,20 @@ public class EmployeeService {
          repository.delete(employeeId);
     }
 
-    public Employee update(int employeeId, Employee employee) {
-        return repository.update(employeeId, employee);
+    public Employee update(Integer employeeId, Employee employee) {
+        Optional<Employee> employee1 = getById(employeeId);
+        return repository.save(employee1);
     }
 
     public List<Employee> getByGender(String male) {
-        return repository.getByGender(male);
+        return repository.findByGender(male);
     }
 
     public List<Employee> getByPage(int page, int pageSize) {
-        return repository.getByPage(page,pageSize);
+        return repository.findByPage(page,pageSize);
     }
 
-    public Employee getById(int id) {
-        return repository.getById(id);
+    public Optional<Employee> getById(Integer id) {
+        return repository.findById(id);
     }
 }

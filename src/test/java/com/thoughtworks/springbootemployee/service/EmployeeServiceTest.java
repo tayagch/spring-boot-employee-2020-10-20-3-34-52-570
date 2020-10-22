@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepositoryLegacy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
 
 class EmployeeServiceTest {
     //Givens
-    EmployeeRepository repository = Mockito.mock(EmployeeRepository.class);
+    EmployeeRepositoryLegacy repository = Mockito.mock(EmployeeRepositoryLegacy.class);
     Employee employeeRequest = new Employee(1, "junjun", 10, "male", 200 );
     List<Employee> expectedEmployees = asList(new Employee(),new Employee());
 

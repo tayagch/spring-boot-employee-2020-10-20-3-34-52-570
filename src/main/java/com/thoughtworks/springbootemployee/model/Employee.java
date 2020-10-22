@@ -1,7 +1,13 @@
 package com.thoughtworks.springbootemployee.model;
 
+import javax.persistence.*;
+
+@Entity
+//employee
 public class Employee {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
     private int age;
     private String gender;
@@ -18,7 +24,7 @@ public class Employee {
         Salary = salary;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

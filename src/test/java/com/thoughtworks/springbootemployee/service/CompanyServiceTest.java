@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 class CompanyServiceTest {
 
     //Givens
+    //should use @Before
     CompanyRepository repository = Mockito.mock(CompanyRepository.class);
     List<Company> expectedCompanies = asList(new Company(),new Company());
     List<Employee> employees = asList(new Employee(), new Employee());
