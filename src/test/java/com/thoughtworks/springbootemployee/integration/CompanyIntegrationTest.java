@@ -102,4 +102,55 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$.employees").isArray());
     }
 
+    @Test
+    void should_return_company_when_update() throws Exception {
+        //GIVEN
+        List<Employee> employees = asList(new Employee(), new Employee());
+        Company company = new Company(1,"OOCL",2,employees);
+        companyRepository.save(company);
+
+        String companyJson = "{\n" +
+                "    \"companyName\": \"OOCL\",\n" +
+                "    \"employeeNumber\": 100,\n" +
+                "    \"employees\": [\n" +
+                "        {\n" +
+                "            \"name\": \"employee1\",\n" +
+                "            \"age\": 22,\n" +
+                "            \"gender\": \"female\",\n" +
+                "            \"salary\": 200\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"name\": \"employee2\",\n" +
+                "            \"age\": 22,\n" +
+                "            \"gender\": \"female\",\n" +
+                "            \"salary\": 200\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
+
+        //WHEN and THEN
+        mockMvc.perform(put("/companies/{companyId}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(companyJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.companyId").isNumber())
+                .andExpect(jsonPath("$.companyName").value("OOCL"))
+                .andExpect(jsonPath("$.employeeNumber").isNumber())
+                .andExpect(jsonPath("$.employees").isArray());
+    }
+
+    @Test
+    void should_return_company_when_delete() throws Exception {
+        //GIVEN
+        List<Employee> employees = asList(new Employee(), new Employee());
+        Company company = new Company(1,"OOCL",2,employees);
+        companyRepository.save(company);
+
+        //WHEN and THEN
+        mockMvc.perform(get("/companies/{companyId}",1))
+                .andExpect(status().isOk());
+    }
+
+
+
 }
