@@ -53,5 +53,36 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$[0].employees").isArray());
     }
 
+    @Test
+    void should_create_company_when_create_given_company_request() throws Exception {
+        //GIVEN
+        String companyJson = "{\n" +
+                "    \"companyName\": \"OOCL\",\n" +
+                "    \"employeeNumber\": 100,\n" +
+                "    \"employees\": [\n" +
+                "        {\n" +
+                "            \"name\": \"employee1\",\n" +
+                "            \"age\": 22,\n" +
+                "            \"gender\": \"female\",\n" +
+                "            \"salary\": 200\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"name\": \"employee2\",\n" +
+                "            \"age\": 22,\n" +
+                "            \"gender\": \"female\",\n" +
+                "            \"salary\": 200\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
+        //WHEN and THEN
 
+        mockMvc.perform(post("/companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(companyJson))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.companyId").isNumber())
+                .andExpect(jsonPath("$.companyName").value("OOCL"))
+                .andExpect(jsonPath("$.employeeNumber").isNumber())
+                .andExpect(jsonPath("$.employees").isArray());
+    }
 }
