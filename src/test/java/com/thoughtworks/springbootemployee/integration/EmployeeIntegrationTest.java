@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.integration;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,6 +26,11 @@ public class EmployeeIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @AfterEach
+    private void deleteAll(){
+        employeeRepository.deleteAll();
+    }
 
     @Test
     void should_return_employees_when_getAll() throws Exception {
@@ -132,7 +138,7 @@ public class EmployeeIntegrationTest {
         employeeRepository.save(employee1);
 
         // when then
-        mockMvc.perform(get("/employees?gender={gender}","male"))
+        mockMvc.perform(get("/employees?gender=male"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].name").value("Christian"))
