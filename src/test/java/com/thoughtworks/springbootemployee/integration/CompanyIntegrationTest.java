@@ -85,4 +85,21 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$.employeeNumber").isNumber())
                 .andExpect(jsonPath("$.employees").isArray());
     }
+
+    @Test
+    void should_return_companies_when_getById() throws Exception {
+        //GIVEN
+        List<Employee> employees = asList(new Employee(), new Employee());
+        Company company = new Company(1,"OOCL",2,employees);
+        companyRepository.save(company);
+
+        //WHEN and THEN
+        mockMvc.perform(get("/companies/{companyId}",1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.companyId").isNumber())
+                .andExpect(jsonPath("$.companyName").value("OOCL"))
+                .andExpect(jsonPath("$.employeeNumber").isNumber())
+                .andExpect(jsonPath("$.employees").isArray());
+    }
+
 }
