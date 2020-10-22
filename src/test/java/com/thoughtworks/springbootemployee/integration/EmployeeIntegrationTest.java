@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -84,5 +83,32 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value(20))
                 .andExpect(jsonPath("$.gender").value("male"))
                 .andExpect(jsonPath("$.salary").value(10000));
+    }
+
+    @Test
+    void should_update_employee_when_update_given_employee_request() throws Exception {
+        // given
+        Employee employee = new Employee(1,"Christian",20,"male",10000);
+        employeeRepository.save(employee);
+        String employeeAsJsoin = "{\n" +
+                "        \"name\":\"Christian Tayag\",\n" +
+                "        \"age\":20,\n" +
+                "        \"gender\":\"male\",\n" +
+                "        \"salary\":10000\n" +
+                "}";
+
+        // when then
+        mockMvc.perform(put("/employees/{employeeId}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(employeeAsJsoin))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("Christian Tayag"))
+                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.gender").value("male"))
+                .andExpect(jsonPath("$.salary").value(10000));
+
+        Employee employeeActual = employeeRepository.findById(1).get();
+        assertEquals("Christian Tayag",employeeActual.getName());
     }
 }
