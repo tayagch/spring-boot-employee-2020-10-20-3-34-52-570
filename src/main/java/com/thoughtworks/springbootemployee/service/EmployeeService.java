@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFound;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
 
+    public static final String EMPLOYEE_NOT_FOUND = "Employee Not Found";
     private final EmployeeRepository repository;
 
     public EmployeeService(EmployeeRepository repository) {
@@ -31,8 +33,11 @@ public class EmployeeService {
     }
 
     public Employee update(Integer employeeId, Employee employeeRequest) {
-        employeeRequest.setId(employeeId);
-        return repository.save(employeeRequest);
+        if(getById(employeeId).isPresent()){
+            employeeRequest.setId(employeeId);
+            return repository.save(employeeRequest);
+        }
+        throw new EmployeeNotFound(EMPLOYEE_NOT_FOUND);
     }
 
     public List<Employee> getByGender(String gender) {
@@ -45,6 +50,6 @@ public class EmployeeService {
     }
 
     public Optional<Employee> getById(Integer id) {
-        return repository.findById(id);
+        return Optional.ofNullable(repository.findById(id)).orElseThrow(()->new EmployeeNotFound(EMPLOYEE_NOT_FOUND));
     }
 }
