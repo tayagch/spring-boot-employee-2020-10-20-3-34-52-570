@@ -2,14 +2,20 @@ package com.thoughtworks.springbootemployee.integration;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.apiguardian.api.API;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.event.annotation.AfterTestMethod;
+import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.lang.annotation.Retention;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,8 +34,9 @@ public class EmployeeIntegrationTest {
     private MockMvc mockMvc;
 
     @AfterEach
-    private void deleteAll(){
+    private void tearDown(){
         employeeRepository.deleteAll();
+        System.out.println("delete");
     }
 
     @Test
@@ -82,7 +89,8 @@ public class EmployeeIntegrationTest {
         employeeRepository.save(employee);
 
         // when then
-        mockMvc.perform(get("/employees/{employeeId}",1))
+        List<Employee> employees = employeeRepository.findAll();
+        mockMvc.perform(get("/employees/{employeeId}",employees.get(0).getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Christian"))
@@ -125,7 +133,8 @@ public class EmployeeIntegrationTest {
         employeeRepository.save(employee);
 
         // when then
-        mockMvc.perform(delete("/employees/{employeeId}",1))
+        List<Employee> employees = employeeRepository.findAll();
+        mockMvc.perform(delete("/employees/{employeeId}",employees.get(0).getId()))
                 .andExpect(status().isOk());
     }
 
