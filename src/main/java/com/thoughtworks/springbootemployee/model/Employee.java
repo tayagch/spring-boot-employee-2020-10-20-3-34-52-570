@@ -11,17 +11,17 @@ public class Employee {
     private String name;
     private int age;
     private String gender;
-    private int Salary;
+    private int salary;
 
     public Employee() {
     }
 
-    public Employee(int id, String name, int age, String gender, int salary) {
+    public Employee(int id, String name, int age, String gender, int salary ) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
-        Salary = salary;
+        this.salary = salary;
     }
 
     public Integer getId() {
@@ -57,10 +57,10 @@ public class Employee {
     }
 
     public int getSalary() {
-        return Salary;
+        return salary;
     }
 
     public void setSalary(int salary) {
-        Salary = salary;
+        this.salary = salary;
     }
 }

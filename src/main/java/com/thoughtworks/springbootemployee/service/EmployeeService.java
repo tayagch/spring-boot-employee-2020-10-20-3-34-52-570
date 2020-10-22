@@ -27,8 +27,7 @@ public class EmployeeService {
     }
 
     public void delete(Integer employeeId) {
-        Employee employee = repository.findById(employeeId).get();
-         repository.delete(employee);
+        repository.deleteById(employeeId);
     }
 
     public Employee update(Integer employeeId, Employee employeeRequest) {
@@ -36,8 +35,8 @@ public class EmployeeService {
         return repository.save(employeeRequest);
     }
 
-    public List<Employee> getByGender(String male) {
-        return repository.findByGender(male);
+    public List<Employee> getByGender(String gender) {
+        return repository.findByGender(gender);
     }
 
     public List<Employee> getByPage(int page, int pageSize) {
