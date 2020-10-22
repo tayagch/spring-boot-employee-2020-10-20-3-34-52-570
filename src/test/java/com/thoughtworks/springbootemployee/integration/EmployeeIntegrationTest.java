@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.event.annotation.AfterTestMethod;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class EmployeeIntegrationTest {
 
     @Autowired
@@ -89,8 +91,7 @@ public class EmployeeIntegrationTest {
         employeeRepository.save(employee);
 
         // when then
-        List<Employee> employees = employeeRepository.findAll();
-        mockMvc.perform(get("/employees/{employeeId}",employees.get(0).getId()))
+        mockMvc.perform(get("/employees/{employeeId}",1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Christian"))
