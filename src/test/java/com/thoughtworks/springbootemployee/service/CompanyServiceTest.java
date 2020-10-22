@@ -50,7 +50,7 @@ class CompanyServiceTest {
         when(repository.search(200)).thenReturn(companyRequest);
         CompanyService companyService = new CompanyService(repository);
         //WHEN
-        Company actual = companyService.search(200);
+        Company actual = companyService.findByCompanyId(200);
         //THEN
         Assertions.assertEquals("Alibaba", actual.getCompanyName());
     }
