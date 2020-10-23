@@ -14,6 +14,7 @@ import java.util.List;
 public class CompaniesController {
     private CompanyService companyService;
 
+
     public CompaniesController(CompanyService companyService) {
         this.companyService = companyService;
     }
@@ -25,17 +26,17 @@ public class CompaniesController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Company create(@RequestBody Company company) {
+    public CompanyResponse create(@RequestBody Company company) {
         return companyService.create(company);
     }
 
     @GetMapping("/{companyId}")
-    public Company get(@PathVariable Integer companyId) {
+    public CompanyResponse get(@PathVariable Integer companyId) {
         return companyService.findByCompanyId(companyId);
     }
 
     @PutMapping("/{companyId}")
-    public Company update(@PathVariable Integer companyId, @RequestBody Company companyUpdate) {
+    public CompanyResponse update(@PathVariable Integer companyId, @RequestBody Company companyUpdate) {
         return companyService.update(companyId, companyUpdate);
     }
 
@@ -45,7 +46,7 @@ public class CompaniesController {
     }
 
     @GetMapping(params = {"page" , "pageSize"})
-    public List<Company> getByPage(@RequestParam() int page,@RequestParam() int pageSize){
+    public List<CompanyResponse> getByPage(@RequestParam() int page,@RequestParam() int pageSize){
         return companyService.getByPage(page,pageSize);
     }
 

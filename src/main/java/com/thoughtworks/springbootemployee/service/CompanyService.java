@@ -33,19 +33,20 @@ public class CompanyService {
         return companies.stream().map(companyMapper::toResponse).collect(Collectors.toList());
     }
 
-    public Company create(Company company){
-        return companyRepository.save(company);
+    public CompanyResponse create(Company company){
+        return companyMapper.toResponse(companyRepository.save(company));
     }
 
-    public Company findByCompanyId(Integer companyId){
-        return companyRepository.findById(companyId).get();
+    public CompanyResponse findByCompanyId(Integer companyId){
+        return companyMapper.toResponse(companyRepository.findById(companyId).get());
     }
 
-    public Company update(Integer companyId, Company companyUpdate){
+    public CompanyResponse update(Integer companyId, Company companyUpdate){
         if (findByCompanyId(companyId)!=null){
             companyUpdate.getEmployees().forEach(employeeRepository::save);
             companyUpdate.setCompanyId(companyId);
-            return companyRepository.save(companyUpdate);
+            //return companyRepository.save(companyUpdate);
+            companyMapper.toResponse(companyRepository.save(companyUpdate));
         }
         throw new CompanyNotFound(COMPANY_NOT_FOUND);
     }
@@ -55,13 +56,15 @@ public class CompanyService {
         company.ifPresent(companyRepository::delete);
     }
 
-    public List<Company> getByPage(int page, int pageSize){
+    public List<CompanyResponse> getByPage(int page, int pageSize){
         Pageable pageable = PageRequest.of(page,pageSize);
-        return companyRepository.findAll(pageable).toList();
+        List<Company> companies = companyRepository.findAll(pageable).toList();
+        return companies.stream().map(companyMapper::toResponse).collect(Collectors.toList());
     }
 
     public List<Employee> getEmployees(Integer companyId){
         return companyRepository.findById(companyId)
                 .orElseThrow(()->new CompanyNotFound(COMPANY_NOT_FOUND)).getEmployees();
+
     }
 }
