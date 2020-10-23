@@ -10,22 +10,22 @@ import org.springframework.stereotype.Service;
 public class CompanyMapper {
     public CompanyResponse toResponse(Company company){
         CompanyResponse response = new CompanyResponse();
-//        response.setEmployeeNumber(company.getEmployees().size());
-//        response.setCompanyId(company.getCompanyId());
-//        response.setCompanyName(company.getCompanyName());
-//        response.setEmployees(company.getEmployees());
+        response.setEmployeeNumber(1);
+        response.setCompanyId(company.getCompanyId());
+        response.setCompanyName(company.getCompanyName());
+        response.setEmployees(company.getEmployees());
 
         //BeanUtls
-        BeanUtils.copyProperties(company, response);
-        response.setEmployeeNumber(company.getEmployees().size());
+//        BeanUtils.copyProperties(company, response);
+//        response.setEmployeeNumber(company.getEmployees().size());
         return response;
     }
 
 
     public Company toEntity(CompanyRequest companyRequest) {
         Company company = new Company();
-        //company.setCompanyName(companyRequest.setCompanyName());
-        BeanUtils.copyProperties(companyRequest, company);
+        company.setCompanyName(companyRequest.getCompanyName());
+        //BeanUtils.copyProperties(companyRequest, company);
         return  company;
     }
 }
