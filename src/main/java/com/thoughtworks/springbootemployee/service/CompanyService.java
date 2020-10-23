@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.exception.CompanyNotFound;
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFound;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
@@ -54,8 +55,7 @@ public class CompanyService {
     }
 
     public List<Employee> getEmployees(Integer companyId){
-
-        return Optional.ofNullable(companyRepository.findById(companyId).get().getEmployees())
-                .orElseThrow(()->new CompanyNotFound(COMPANY_NOT_FOUND));
+        return companyRepository.findById(companyId)
+                .orElseThrow(()->new CompanyNotFound(COMPANY_NOT_FOUND)).getEmployees();
     }
 }

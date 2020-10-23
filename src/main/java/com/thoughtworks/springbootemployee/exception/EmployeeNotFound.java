@@ -1,7 +1,11 @@
 package com.thoughtworks.springbootemployee.exception;
 
 public class EmployeeNotFound extends RuntimeException {
-    public EmployeeNotFound(String employeeNotFound) {
+    public EmployeeNotFound() {
 
+    }
+
+    public EmployeeNotFound(String employeeNotFound) {
+       super(employeeNotFound);
     }
 }

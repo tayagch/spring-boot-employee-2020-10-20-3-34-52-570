@@ -33,7 +33,7 @@ public class EmployeeService {
     }
 
     public Employee update(Integer employeeId, Employee employeeRequest) {
-        if(getById(employeeId).isPresent()){
+        if(repository.findById(employeeId).isPresent()){
             employeeRequest.setId(employeeId);
             return repository.save(employeeRequest);
         }
@@ -49,7 +49,8 @@ public class EmployeeService {
         return repository.findAll(pageable).toList();
     }
 
-    public Optional<Employee> getById(Integer id) {
-        return Optional.ofNullable(repository.findById(id)).orElseThrow(()->new EmployeeNotFound(EMPLOYEE_NOT_FOUND));
+    public Employee getById(Integer employeeId) {
+        return repository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFound(EMPLOYEE_NOT_FOUND));
     }
 }
