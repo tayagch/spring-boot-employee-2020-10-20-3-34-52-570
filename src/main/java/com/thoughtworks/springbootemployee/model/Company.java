@@ -13,8 +13,8 @@ public class Company {
     private Integer companyId;
     private String companyName;
 
-    @NotFound(action = NotFoundAction.IGNORE)
-    @OneToMany(orphanRemoval = true,fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    @NotFound(action = NotFoundAction.IGNORE)
+    @OneToMany(orphanRemoval = true,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private List<Employee> employees;
 

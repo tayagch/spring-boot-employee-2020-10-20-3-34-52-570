@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 //@Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class CompanyIntegrationTest {
     @Autowired
@@ -176,9 +176,8 @@ public class CompanyIntegrationTest {
         List<Employee> employees = asList(new Employee("Christian",20,"male",10000));
         Company company = new Company(1,"OOCL",employees);
         companyRepository.save(company);
-        Integer companyId = companyRepository.findAll().get(0).getCompanyId();
         //WHEN and THEN
-        mockMvc.perform(get("/companies/{companyId}/employees",3))
+        mockMvc.perform(get("/companies/{companyId}/employees",companyRepository.findAll().get(0).getCompanyId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].name").isString())
