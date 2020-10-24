@@ -55,7 +55,6 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].age").value(20))
                 .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[0].salary").value(10000));
-
     }
 
     @Test
