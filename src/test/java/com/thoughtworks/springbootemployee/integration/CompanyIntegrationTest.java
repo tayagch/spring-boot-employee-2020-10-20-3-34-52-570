@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -21,7 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+//@Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class CompanyIntegrationTest {
     @Autowired
     private CompanyRepository companyRepository;
@@ -39,10 +41,10 @@ public class CompanyIntegrationTest {
     @Test
     void should_return_companies_when_getAll() throws Exception {
         //GIVEN
-        List<Employee> employees = asList(new Employee(), new Employee());
-        Company company = new Company("OOCL",employees);
-        companyService.create(company);
-        //companyRepository.save(company);
+        List<Employee> employees = asList(new Employee("Christian",20,"male",10000));
+        Company company = new Company(1,"OOCL",employees);
+//        companyService.create(company);
+        companyRepository.save(company);
 
         //WHEN and THEN
         mockMvc.perform(get("/companies"))
@@ -90,12 +92,12 @@ public class CompanyIntegrationTest {
     @Test
     void should_return_companies_when_getById() throws Exception {
         //GIVEN
-        List<Employee> employees = asList(new Employee(), new Employee());
-        Company company = new Company("OOCL",employees);
+        List<Employee> employees = asList(new Employee(1,"Christian",20,"male",10000));
+        Company company = new Company(1,"OOCL",employees);
         companyRepository.save(company);
 
         //WHEN and THEN
-        mockMvc.perform(get("/companies/{companyId}",1))
+        mockMvc.perform(get("/companies/{companyId}",companyRepository.findAll().get(0).getCompanyId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyId").isNumber())
                 .andExpect(jsonPath("$.companyName").value("OOCL"))
@@ -106,8 +108,8 @@ public class CompanyIntegrationTest {
     @Test
     void should_return_company_when_update() throws Exception {
         //GIVEN
-        List<Employee> employees = asList(new Employee(), new Employee());
-        Company company = new Company("OOCL",employees);
+        List<Employee> employees = asList(new Employee(1,"Christian",20,"male",10000));
+        Company company = new Company(1,"OOCL",employees);
         companyRepository.save(company);
 
         String companyJson = "{\n" +
@@ -130,7 +132,7 @@ public class CompanyIntegrationTest {
                 "}";
 
         //WHEN and THEN
-        mockMvc.perform(put("/companies/{companyId}",1)
+        mockMvc.perform(put("/companies/{companyId}",companyRepository.findAll().get(0).getCompanyId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(companyJson))
                 .andExpect(status().isOk())
@@ -143,12 +145,12 @@ public class CompanyIntegrationTest {
     @Test
     void should_return_company_when_delete() throws Exception {
         //GIVEN
-        List<Employee> employees = asList(new Employee(), new Employee());
-        Company company = new Company("OOCL",employees);
+        List<Employee> employees = asList(new Employee(1,"Christian",20,"male",10000));
+        Company company = new Company(1,"OOCL",employees);
         companyRepository.save(company);
 
         //WHEN and THEN
-        mockMvc.perform(get("/companies/{companyId}",1))
+        mockMvc.perform(get("/companies/{companyId}",companyRepository.findAll().get(0).getCompanyId()))
                 .andExpect(status().isOk());
     }
 
@@ -156,7 +158,7 @@ public class CompanyIntegrationTest {
     void should_return_company_when_getByPage() throws Exception {
         //GIVEN
         List<Employee> employees = asList(new Employee(1,"Christian",20,"male",10000));
-        Company company = new Company("OOCL",employees);
+        Company company = new Company(1,"OOCL",employees);
         companyRepository.save(company);
 
         //WHEN and THEN
@@ -171,17 +173,17 @@ public class CompanyIntegrationTest {
     @Test
     void should_return_companies_when_getEmployees() throws Exception {
         //GIVEN
-        List<Employee> employees = asList(new Employee(), new Employee());
-        Company company = new Company("OOCL",employees);
+        List<Employee> employees = asList(new Employee("Christian",20,"male",10000));
+        Company company = new Company(1,"OOCL",employees);
         companyRepository.save(company);
-
+        Integer companyId = companyRepository.findAll().get(0).getCompanyId();
         //WHEN and THEN
-        mockMvc.perform(get("/companies/{companyId}/employees",1))
+        mockMvc.perform(get("/companies/{companyId}/employees",3))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
-                .andExpect(jsonPath("$[0].name").isEmpty())
+                .andExpect(jsonPath("$[0].name").isString())
                 .andExpect(jsonPath("$[0].age").isNumber())
-                .andExpect(jsonPath("$[0].gender").isEmpty())
+                .andExpect(jsonPath("$[0].gender").isString())
                 .andExpect(jsonPath("$[0].salary").isNumber());
     }
 

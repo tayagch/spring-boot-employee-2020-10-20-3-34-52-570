@@ -19,6 +19,7 @@ public class CompanyMapper {
         //BeanUtls
         BeanUtils.copyProperties(company, response);
         response.setEmployeeNumber(company.getEmployees().size());
+//        response.setEmployees(company.getEmployees());
         return response;
     }
 

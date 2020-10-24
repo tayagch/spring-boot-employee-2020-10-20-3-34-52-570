@@ -1,5 +1,8 @@
 package com.thoughtworks.springbootemployee.model;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,6 +13,7 @@ public class Company {
     private Integer companyId;
     private String companyName;
 
+    @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(orphanRemoval = true,fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "company_id")
     private List<Employee> employees;
@@ -17,7 +21,8 @@ public class Company {
     public Company() {
     }
 
-    public Company(String companyName, List<Employee> employees) {
+    public Company(Integer companyId, String companyName, List<Employee> employees) {
+        this.companyId = companyId;
         this.companyName = companyName;
         this.employees = employees;
     }
