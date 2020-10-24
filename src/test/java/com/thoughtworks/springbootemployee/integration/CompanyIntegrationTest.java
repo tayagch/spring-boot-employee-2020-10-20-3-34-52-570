@@ -94,10 +94,10 @@ public class CompanyIntegrationTest {
         //GIVEN
         List<Employee> employees = asList(new Employee(1,"Christian",20,"male",10000));
         Company company = new Company(1,"OOCL",employees);
-        companyRepository.save(company);
+        Integer companyId = companyRepository.save(company).getCompanyId();
 
         //WHEN and THEN
-        mockMvc.perform(get("/companies/{companyId}",companyRepository.findAll().get(0).getCompanyId()))
+        mockMvc.perform(get("/companies/{companyId}",companyId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyId").isNumber())
                 .andExpect(jsonPath("$.companyName").value("OOCL"))
@@ -110,7 +110,7 @@ public class CompanyIntegrationTest {
         //GIVEN
         List<Employee> employees = asList(new Employee(1,"Christian",20,"male",10000));
         Company company = new Company(1,"OOCL",employees);
-        companyRepository.save(company);
+        Integer companyId = companyRepository.save(company).getCompanyId();
 
         String companyJson = "{\n" +
                 "    \"companyName\": \"OOCL\",\n" +
@@ -132,7 +132,7 @@ public class CompanyIntegrationTest {
                 "}";
 
         //WHEN and THEN
-        mockMvc.perform(put("/companies/{companyId}",companyRepository.findAll().get(0).getCompanyId())
+        mockMvc.perform(put("/companies/{companyId}",companyId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(companyJson))
                 .andExpect(status().isOk())
@@ -147,10 +147,10 @@ public class CompanyIntegrationTest {
         //GIVEN
         List<Employee> employees = asList(new Employee(1,"Christian",20,"male",10000));
         Company company = new Company(1,"OOCL",employees);
-        companyRepository.save(company);
+        Integer companyId = companyRepository.save(company).getCompanyId();
 
         //WHEN and THEN
-        mockMvc.perform(get("/companies/{companyId}",companyRepository.findAll().get(0).getCompanyId()))
+        mockMvc.perform(get("/companies/{companyId}",companyId))
                 .andExpect(status().isOk());
     }
 
@@ -175,9 +175,9 @@ public class CompanyIntegrationTest {
         //GIVEN
         List<Employee> employees = asList(new Employee("Christian",20,"male",10000));
         Company company = new Company(1,"OOCL",employees);
-        companyRepository.save(company);
+        Integer companyId = companyRepository.save(company).getCompanyId();
         //WHEN and THEN
-        mockMvc.perform(get("/companies/{companyId}/employees",companyRepository.findAll().get(0).getCompanyId()))
+        mockMvc.perform(get("/companies/{companyId}/employees",companyId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].name").isString())
